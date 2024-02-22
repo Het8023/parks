@@ -166,10 +166,10 @@ export default {
             // 添加
             await getAddAreaApi(this.ruleForm);
           }
-
+          this.$refs[formName].resetFields();
+          this.ruleForm.remark = "";
           this.dialogVisible = false;
           this.getlist();
-          this.$refs[formName].resetFields();
         } else {
           console.log("error submit!!");
           return false;
@@ -187,9 +187,9 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(() => {
+        .then(async () => {
           console.log(id);
-          const res = getDelAreaApi(id);
+          const res = await getDelAreaApi(id);
           this.getlist();
           this.$message({
             type: "success",

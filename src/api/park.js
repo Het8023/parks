@@ -136,3 +136,19 @@ export function outRentAPI(rentId) {
     method: "PUT",
   });
 }
+
+// 获取详情
+export function getEnterpriseDetail(id) {
+  return request({
+    url: `/park/enterprise/${id}`,
+    method: "GET",
+  });
+}
+
+// 删除企业的租赁合同
+export function delExterpriserentAPI(id) {
+  return request({
+    url: `/park/enterprise/rent/${id}`,
+    method: "DELETE",
+  });
+}

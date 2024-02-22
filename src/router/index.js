@@ -82,6 +82,10 @@ export const constantRoutes = [
     path: "/exterpriseAdd",
     component: () => import("@/views/Park/Enterprise/add"),
   },
+  {
+    path: "/exterpriseDetail",
+    component: () => import("@/views/Park/Enterprise/detail"),
+  },
 
   {
     path: "/car",

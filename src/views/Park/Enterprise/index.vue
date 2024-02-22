@@ -32,14 +32,24 @@
             </el-table-column>
             <el-table-column label="操作" width="180">
               <template #default="scope">
-                <el-button size="mini" type="text" :disabled="scope.row.status === 3">续租</el-button>
+                <el-button
+                  size="mini"
+                  type="text"
+                  :disabled="scope.row.status === 3||scope.row.status === 0"
+                  @click="xz(scope.row.id)"
+                >续租</el-button>
                 <el-button
                   size="mini"
                   type="text"
                   :disabled="scope.row.status === 3"
                   @click="outRent(scope.row.id)"
                 >退租</el-button>
-                <el-button size="mini" type="text" :disabled="scope.row.status !== 3">删除</el-button>
+                <el-button
+                  size="mini"
+                  type="text"
+                  :disabled="scope.row.status !== 3"
+                  @click="delRent(scope.row.id)"
+                >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -52,7 +62,7 @@
       <el-table-column label="操作" prop="id">
         <template slot-scope="scope">
           <el-button type="text" @click="addRent(scope.row.id)">添加合同</el-button>
-          <el-button type="text">查看</el-button>
+          <el-button type="text" @click="detailRent(scope.row.id)">查看</el-button>
           <el-button type="text" @click="editRent(scope.row.id)">编辑</el-button>
           <el-button
             type="text"
@@ -122,7 +132,8 @@ import {
   getRentBuildListAPI,
   createRentAPI,
   uploadAPI,
-  outRentAPI
+  outRentAPI,
+  delExterpriserentAPI
 } from "@/api/park";
 export default {
   components: {},
@@ -204,7 +215,7 @@ export default {
         }
       });
     },
-    // 删除
+    // 删除企业
     delExterprise(id) {
       this.$confirm("确认删除该企业吗?", "提示", {
         confirmButtonText: "确定",
@@ -292,9 +303,37 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消退租"
           });
         });
+    },
+    // 查看
+    detailRent(id) {
+      this.$router.push({
+        path: "/exterpriseDetail",
+        query: {
+          id
+        }
+      });
+    },
+    // 删除合同
+    delRent(id) {
+      this.$confirm("确认删除该企业吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(async () => {
+        await delExterpriserentAPI(id);
+        this.$message({
+          type: "success",
+          message: "删除成功!"
+        });
+        this.getlist();
+      });
+    },
+    // 续租
+    xz(id) {
+      this.rentForm.type = 1;
     }
   },
   created() {

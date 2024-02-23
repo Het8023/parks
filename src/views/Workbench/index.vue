@@ -10,12 +10,12 @@ import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   computed: {
-    ...mapGetters(["name", 'info']),
-  },
+    ...mapGetters(["name", "info"])
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-container {
   // background-color: #eee;
   height: calc(100vh - 60px);

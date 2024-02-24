@@ -23,7 +23,7 @@
     <!-- 添加删除按钮 -->
     <div>
       <el-button type="primary" @click="dialogVisible = true;dialogVisibleText = '添加'">添加一体杆</el-button>
-      <el-button>批量删除</el-button>
+      <el-button @click="deleteAll">批量删除</el-button>
     </div>
 
     <!-- 表格 -->
@@ -169,7 +169,13 @@ export default {
     },
     // 获取选中的
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val.map(item => item.id).join(",");
+    },
+    // 批量删除
+    async deleteAll() {
+      const res = await getDelInfoApi(this.multipleSelection);
+      this.getlist();
+      // console.log(res);
     },
     // 获取列表
     async getlist() {

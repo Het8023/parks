@@ -154,6 +154,10 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: "/warn/detail",
+    component: () => import("@/views/Rod/RodWarn/detail"),
+  },
 
   {
     path: "/sys",

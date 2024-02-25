@@ -41,3 +41,27 @@ export function getEditInfoApi(data) {
     data,
   });
 }
+
+// 告警记录
+// 查看告警记录列表
+export function getWarningListApi(data) {
+  return request({
+    url: `/pole/warning/list?page=${data.page}&pageSize=${data.pageSize}&poleName=${data.poleName}&poleNumber=${data.poleNumber}&handleStatus=${data.handleStatus}`,
+    method: "get",
+  });
+}
+
+// 删除告警记录
+export function getDelwarningApi(id) {
+  return request({
+    url: `/pole/warning/${id}`,
+    method: "delete",
+  });
+}
+
+// 查看告警详情
+export function getwarningDetailAPI(id) {
+  return request({
+    url: `/pole/warning/${id}`,
+  });
+}

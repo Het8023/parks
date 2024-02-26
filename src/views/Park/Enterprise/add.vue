@@ -182,7 +182,8 @@ export default {
         industryCode,
         legalPerson,
         name,
-        registeredAddress
+        registeredAddress,
+        businessLicenseName //文件名字
       } = res.data;
       this.addForm = {
         businessLicenseId,
@@ -197,6 +198,7 @@ export default {
       // 上传文件回显
       this.fileList = [
         {
+          name: businessLicenseName,
           url: businessLicenseUrl
         }
       ];

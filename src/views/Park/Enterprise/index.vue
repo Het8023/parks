@@ -35,13 +35,13 @@
                 <el-button
                   size="mini"
                   type="text"
-                  :disabled="scope.row.status === 3||scope.row.status === 0"
+                  :disabled="!scope.row.renewFlag"
                   @click="xz(scope.row.id)"
                 >续租</el-button>
                 <el-button
                   size="mini"
                   type="text"
-                  :disabled="scope.row.status === 3"
+                  :disabled="!scope.row.exitFlag"
                   @click="outRent(scope.row.id)"
                 >退租</el-button>
                 <el-button

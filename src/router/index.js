@@ -179,6 +179,10 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: "/sys/add",
+    component: () => import("@/views/System/Role/add"),
+  },
 
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },

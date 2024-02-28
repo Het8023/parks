@@ -2,46 +2,69 @@ import axios from "axios";
 import { MessageBox, Message } from "element-ui";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
+import router from "@/router";
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 6000,
+  timeout: 5000,
 });
 
-// 添加请求拦截器
+// request interceptor
 service.interceptors.request.use(
-  function (config) {
-    // 在发送请求之前做些什么
-
+  (config) => {
     if (store.getters.token) {
-      config.headers.Authorization = `Bearer ${store.getters.token}`;
+      config.headers.Authorization = "Bearer " + getToken();
     }
-
     return config;
   },
-  function (error) {
-    // 对请求错误做些什么
+  (error) => {
+    console.log(error);
     return Promise.reject(error);
   }
 );
 
-// 添加响应拦截器
+// 响应拦截器
 service.interceptors.response.use(
-  function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
-    if (response.data.code !== 10000) {
-      Message({
-        message: response.data.msg,
-        type: "error",
-      });
+  (response) => {
+    // 对返回的数据解构了一层data
+    const res = response.data;
+
+    // 请求成功
+    if (res.code === 10000) {
+      return res;
     }
 
-    return response.data;
+    // 请求失败的统一处理
+    Message({
+      message: res.msg || "Error",
+      type: "error",
+      duration: 5 * 1000,
+    });
+    return Promise.reject(new Error(res.msg || "Error"));
   },
-  function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
+  async (error) => {
+    // token失效处理
+    if (error.response.status === 401 && error.response.data.code === 40001) {
+      // 1.清除token与用户信息
+      await store.dispatch("user/logout");
+
+      // 2. 跳转到登录
+      router.push("/login");
+
+      // 3.跳转到登录页
+      Message({
+        message: "登录已过期，请重新登录",
+        type: "error",
+        duration: 5 * 1000,
+      });
+      return Promise.reject(new Error("登录已过期，请重新登录"));
+    }
+
+    Message({
+      message: error.message,
+      type: "error",
+      duration: 5 * 1000,
+    });
     return Promise.reject(error);
   }
 );

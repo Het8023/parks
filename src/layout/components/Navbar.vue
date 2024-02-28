@@ -1,6 +1,10 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
@@ -8,13 +12,13 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
-          <i class="el-icon-caret-bottom" /> -->
+          <i class="el-icon-caret-bottom" />-->
           <div class="data-view">可视化大屏</div>
-          <div class="user-name">{{ info.userName }}</div>
+          <div class="user-name">{{ name }}</div>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> 修改密码 </el-dropdown-item>
+            <el-dropdown-item>修改密码</el-dropdown-item>
           </router-link>
 
           <el-dropdown-item divided @click.native="logout">
@@ -34,10 +38,10 @@ import Hamburger from "@/components/Hamburger";
 export default {
   components: {
     Breadcrumb,
-    Hamburger,
+    Hamburger
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", 'info']),
+    ...mapGetters(["sidebar", "name"])
   },
   methods: {
     toggleSideBar() {
@@ -45,9 +49,9 @@ export default {
     },
     async logout() {
       await this.$store.dispatch("user/logout");
-      this.$router.push(`/login`);
-    },
-  },
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    }
+  }
 };
 </script>
 
@@ -111,7 +115,6 @@ export default {
         position: relative;
         display: flex;
         align-items: center;
-
         .data-view {
           border: 1px solid #4770ff;
           // padding: 10px;

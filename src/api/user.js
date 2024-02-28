@@ -12,7 +12,7 @@ export function loginApi(data) {
 // 获取用户信息
 export function getInfoApi() {
   return request({
-    url: "/system/user/dropList",
+    url: "/park/user/profile",
     method: "get",
   });
 }

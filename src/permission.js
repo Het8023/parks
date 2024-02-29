@@ -35,7 +35,12 @@ const getRoutes = (firstPerms, secondPerms, asyncRoutes) => {
   }
   const routes = asyncRoutes
     .filter((item) => {
+      // console.log("aa", firstPerms);
+      // console.log("item", item);
+      // if (item.children.length > 0) {
+      // }
       return firstPerms.includes(item.permission);
+      // return firstPerms.includes(item.permission);
     })
     .map((item) => {
       return {
@@ -46,7 +51,13 @@ const getRoutes = (firstPerms, secondPerms, asyncRoutes) => {
       };
     });
 
-  return routes;
+  const route = routes.filter((item) => {
+    if (item.children.length > 0) {
+      return item;
+    }
+  });
+  console.log("routes", route);
+  return route;
 };
 
 // 路由白名单
@@ -82,14 +93,14 @@ router.beforeEach(async (to, from, next) => {
 
           // 获取后台返回的数据
           const { permissions } = await store.dispatch("user/userInfo");
-          // console.log("permissions", permissions);
+          console.log("permissions", permissions);
 
           // 拿到一级路由权限点数据
           const firstPerms = getFirstRoutePerms(permissions);
           console.log("firstPerms", firstPerms);
           // 拿到二级路由权限点数据
           const secondPerms = getSecondRoutePerms(permissions);
-          // console.log("secondPerms", secondPerms);
+          console.log("secondPerms", secondPerms);
           //  匹配出当前登录的用户所有拥有的自定义的动态路由表
           const newRoutes = getRoutes(firstPerms, secondPerms, asyncRoutes);
           console.log("newRoutes", newRoutes);

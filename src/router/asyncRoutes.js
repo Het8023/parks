@@ -66,10 +66,13 @@ export const asyncRoutes = [
     path: "/propety",
     component: Layout,
     // alwaysShow: true,
+    permission: "park",
+
     children: [
       {
         path: "cost",
         name: "cost",
+        permission: "park:propertyFee",
         component: () => import("@/views/Propety/Cost"),
         meta: { title: "物业费管理", icon: "form" },
       },

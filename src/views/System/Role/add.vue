@@ -89,6 +89,7 @@ export default {
       if (this.active == 2) {
         this.ruleForm.perms = [];
         this.$refs.tree.forEach(tree => {
+          // console.log("123", tree.getCheckedKeys());
           this.ruleForm.perms.push(tree.getCheckedKeys());
         });
         // 如果长度为零 没有选中任何东西

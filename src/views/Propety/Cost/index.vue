@@ -15,11 +15,11 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="onSubmit" v-auth-btn="'park:propertyFee:query'">查询</el-button>
       </el-form-item>
     </el-form>
     <hr />
-    <el-button type="primary" @click="dialogVisible = true">添加账单</el-button>
+    <el-button type="primary" @click="dialogVisible = true" v-auth-btn="'park:propertyFee:add'">添加账单</el-button>
     <br />
 
     <!-- 表格 -->
@@ -33,8 +33,12 @@
       <el-table-column prop="createTime" label="缴费时间"></el-table-column>
       <el-table-column prop="id" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="ck(scope.row.id)">查看</el-button>
-          <el-button type="text" @click="del(scope.row.id)">删除</el-button>
+          <el-button type="text" @click="ck(scope.row.id)" v-auth-btn="'park:propertyFee:list'">查看</el-button>
+          <el-button
+            type="text"
+            @click="del(scope.row.id)"
+            v-auth-btn="'park:propertyFee:remove'"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

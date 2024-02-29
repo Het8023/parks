@@ -6,12 +6,12 @@
           <el-input v-model="formInline.user" placeholder="请输入楼宇名称" style="width: 200px;"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="onSubmit" v-auth-btn="'park:building:list'">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
     <hr />
-    <el-button type="primary" @click="dakai">添加楼宇</el-button>
+    <el-button type="primary" @click="dakai" v-auth-btn="'park:building:add_edit'">添加楼宇</el-button>
     <br />
 
     <!-- 表格 -->
@@ -26,8 +26,16 @@
       </el-table-column>
       <el-table-column prop="id" label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="editbuilding(scope.row.id)">编辑</el-button>
-          <el-button type="text" @click="deletebuiding(scope.row.id)">删除</el-button>
+          <el-button
+            type="text"
+            @click="editbuilding(scope.row.id)"
+            v-auth-btn="'park:building:add_edit'"
+          >编辑</el-button>
+          <el-button
+            type="text"
+            @click="deletebuiding(scope.row.id)"
+            v-auth-btn="'park:building:remove'"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

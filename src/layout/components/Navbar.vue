@@ -13,7 +13,7 @@
         <div class="avatar-wrapper">
           <!-- <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
           <i class="el-icon-caret-bottom" />-->
-          <div class="data-view">可视化大屏</div>
+          <div class="data-view" @click="toScreen">可视化大屏</div>
           <div class="user-name">{{ name }}</div>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -38,10 +38,10 @@ import Hamburger from "@/components/Hamburger";
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
   },
   computed: {
-    ...mapGetters(["sidebar", "name"])
+    ...mapGetters(["sidebar", "name"]),
   },
   methods: {
     toggleSideBar() {
@@ -51,8 +51,12 @@ export default {
       await this.$store.dispatch("user/logout");
       await this.$store.commit("menu/resetMenu");
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
-    }
-  }
+    },
+    toScreen() {
+      // window.location.href = "http://views.het8023.top/c/";
+      this.$router.push("/big-screen");
+    },
+  },
 };
 </script>
 

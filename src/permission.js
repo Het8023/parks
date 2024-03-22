@@ -93,27 +93,42 @@ router.beforeEach(async (to, from, next) => {
 
           // 获取后台返回的数据
           const { permissions } = await store.dispatch("user/userInfo");
-          console.log("permissions", permissions);
+          // console.log("permissions", permissions);
 
           // 拿到一级路由权限点数据
-          const firstPerms = getFirstRoutePerms(permissions);
-          console.log("firstPerms", firstPerms);
+          const firstPerms = await getFirstRoutePerms(permissions);
+          // console.log("firstPerms", firstPerms);
           // 拿到二级路由权限点数据
-          const secondPerms = getSecondRoutePerms(permissions);
-          console.log("secondPerms", secondPerms);
+          const secondPerms = await getSecondRoutePerms(permissions);
+          // console.log("secondPerms", secondPerms);
           //  匹配出当前登录的用户所有拥有的自定义的动态路由表
-          const newRoutes = getRoutes(firstPerms, secondPerms, asyncRoutes);
-          console.log("newRoutes", newRoutes);
+          const newRoutes = await getRoutes(
+            firstPerms,
+            secondPerms,
+            asyncRoutes
+          );
+          // console.log("newRoutes", newRoutes);
           // 动态的添加到路由表
           router.addRoutes([
             ...newRoutes, // 404 page must be placed at the end !!!
-            { path: "*", redirect: "/404", hidden: true },
+            // { path: "*", redirect: "/404", hidden: true },
+            {
+              path: "*",
+              redirect: (to) => {
+                if (to.path == "/big-screen") {
+                  return {};
+                } else {
+                  return "/404";
+                }
+              },
+              hidden: true,
+            },
           ]);
 
           // 将动态添加的路由放到menus
           store.commit("menu/setMenus", newRoutes);
           // 成功 放行
-          next(to.fullPath);
+          next(to.Path);
         } catch (error) {
           // 失败, 清空token 以及 用户信息
           await store.dispatch("user/logout");

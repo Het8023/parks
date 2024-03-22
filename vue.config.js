@@ -33,14 +33,14 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    // open: true,
     overlay: {
       warnings: false,
       errors: true,
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: " https://api-hmzs.itheima.net/api",
+        target: "https://api-hmzs.itheima.net/api",
         changeOrigin: true,
         pathRewrite: {
           ["^" + process.env.VUE_APP_BASE_API]: "",
